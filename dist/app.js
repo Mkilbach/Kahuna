@@ -154,32 +154,45 @@ function toComment(sourceMap) {
 
 __webpack_require__(3);
 
+var $panelsWrapper = $('.categories__panels');
 var $panels = $('.categories__innerPanel');
 var $closeBtn = $('.categories__panelInfoCloseBtn');
+var $articles = $('.categories__panelInfoArticle');
 
-$panels.on('click', function (e) {
-
+var slide = function slide(e) {
     $panels.removeClass('categories__expendable');
     $panels.parent().removeClass('unselected');
+    $panelsWrapper.addClass('.categories__panels--shrink');
     $panels.each(function (i, el) {
         if (el === e.currentTarget) {
             $(el).parent().addClass('selected');
+            $articles.each(function (i, el) {
+                $(el).attr('data-title') === $(e.currentTarget).attr('data-title') && $(el).css('display', 'block');
+            });
         } else {
             $(el).parent().addClass('faded');
         }
     });
-});
+};
 
+// nadanie eventu na panele
+$panels.on('click', slide);
+
+// button zamykający artykuł
 $closeBtn.on('click', function (e) {
-    console.log('aa');
+
     $panels.parent().each(function (i, el) {
-        if ($(el).hasClass('selected')) {
-            $(el).addClass('unselected');
-            console.log($(el).find('categories__innerPanel:first-child'));
-        }
+        $(el).hasClass('selected') && $(el).addClass('unselected');
     });
     $panels.addClass('categories__expendable');
+    $panelsWrapper.removeClass('.categories__panels--shrink');
     $panels.parent().removeClass('faded selected');
+
+    $panels.off('click'); //zmuszenie panelu do zamkniecia sie w calosci
+    setTimeout(function () {
+        $articles.css('display', 'none');
+        $panels.on('click', slide); // odnowienie eventu
+    }, 1250);
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
@@ -10569,7 +10582,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(16)(content, options);
+var update = __webpack_require__(17)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -10595,7 +10608,7 @@ exports = module.exports = __webpack_require__(0)(false);
 exports.i(__webpack_require__(6), "");
 
 // module
-exports.push([module.i, "/* Variables */\n\n/* Keyframes */\n\n@keyframes fadein {\n  0% {\n    opacity: 0;\n  }\n\n  100% {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeout {\n  0% {\n    opacity: 1;\n  }\n\n  100% {\n    opacity: 0;\n  }\n}\n\n/* --------- */\n\nbody {\n  display: flex;\n}\n\n/*  MENU  */\n\n.menu {\n  width: 130px;\n  height: 785px;\n  float: left;\n}\n\n.menu__logo {\n  background: url(" + escape(__webpack_require__(7)) + ") no-repeat center;\n  width: calc(100% - 14px);\n  height: 110px;\n  background-size: contain;\n  margin: 0 7px;\n}\n\n.menu__element {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  align-items: center;\n  flex-grow: 1;\n  height: 85px;\n  padding: 14px 0;\n  line-height: 16px;\n  font-weight: 600;\n  overflow: visible;\n  cursor: pointer;\n}\n\n.menu__element p {\n  padding: 7px 0 3px 0;\n  text-transform: uppercase;\n  color: white;\n  font-size: 0.8em;\n  font-weight: 700;\n}\n\n.menu__element:hover .menu__elementSlider {\n  transition: 0.5s;\n  width: 100%;\n}\n\n.menu__element--1 {\n  background-color: #ffa754;\n}\n\n.menu__element--2 {\n  background-color: #e9532a;\n}\n\n.menu__element--3 {\n  background-color: #49b5ac;\n}\n\n.menu__element--4 {\n  background-color: #3b9d89;\n}\n\n.menu__element--5 {\n  background-color: #714178;\n}\n\n.menu__element--6 {\n  background-color: #000000;\n}\n\n.menu__elementSlider {\n  height: 100%;\n  background-color: rgba(255, 255, 255, 0.1);\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  transition: 0.5s;\n  width: 0;\n}\n\n.menu__footer {\n  width: 100%;\n  padding: 5px 0 25px 0;\n  font-size: 0.6em;\n  font-weight: 500;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.menu__footer a {\n  width: 50px;\n  height: 45px;\n}\n\n.menu__footer a p {\n  padding: 3px 0;\n  margin: 0 -100%;\n  display: none;\n  text-align: center;\n  white-space: nowrap;\n  overflow: visible;\n}\n\n.menu__footer a:hover p {\n  display: block;\n}\n\n.menu_footerIcon {\n  height: 30px;\n  width: 100%;\n}\n\n.menu_footerIcon--1 {\n  background: url(" + escape(__webpack_require__(8)) + ") no-repeat center;\n}\n\n.menu_footerIcon--2 {\n  background: url(" + escape(__webpack_require__(9)) + ") no-repeat center;\n}\n\n.menu_footerIcon--3 {\n  background: url(" + escape(__webpack_require__(10)) + ") no-repeat center;\n}\n\n.menu__author {\n  font-size: 0.6em;\n  font-weight: 500;\n  display: block;\n  margin: 0 auto;\n  text-align: center;\n}\n\n/*  CATEGORIES  */\n\n.categories {\n  width: calc(100vw - 130px);\n  height: 100vh;\n  display: flex;\n  flex-wrap: nowrap;\n  overflow: hidden;\n  justify-content: flex-start;\n  z-index: 5;\n}\n\n.categories__panel {\n  transition: 1.25s;\n  width: calc(100% / 5);\n  position: relative;\n}\n\n.categories__innerPanel {\n  margin: 0 auto;\n  width: 100%;\n  height: 100%;\n  background: no-repeat center;\n  background-size: cover;\n  position: absolute;\n  overflow: hidden;\n  cursor: pointer;\n}\n\n.categories__expendable:hover {\n  transition: 0.5s;\n  width: calc(100% + 40px);\n  right: -20px;\n  left: -20px;\n  z-index: 10;\n}\n\n.categories__expendable:hover .categories__panelTitle {\n  transition: 0.5s;\n  left: 40px;\n}\n\n.categories__innerPanel--1 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n.categories__innerPanel--2 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n.categories__innerPanel--3 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n.categories__innerPanel--4 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n.categories__innerPanel--5 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\n.categories__panelTitle {\n  transition: font-size 1.25s;\n  display: block;\n  min-width: 150px;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  color: white;\n  text-shadow: 1px 1px 2px rgba(128, 128, 128, 0.7);\n  font-size: 150%;\n  position: absolute;\n  left: 20px;\n  right: 40px;\n  top: 85px;\n}\n\n.categories__panelInfo {\n  position: absolute;\n  width: calc(100% - 279px);\n  right: 0;\n  height: 100%;\n  background: wheat;\n  z-index: -1;\n}\n\n.categories__panelInfoCloseBtn {\n  position: absolute;\n  right: 50px;\n  top: 20px;\n  cursor: pointer;\n}\n\n.faded {\n  transition: 1.25s;\n  width: 0;\n}\n\n.faded .categories__innerPanel {\n  transition: 1.25s;\n  right: 0;\n  left: 0;\n}\n\n.selected {\n  transition: 1.25s;\n  width: 150px;\n  right: 0;\n  left: 0;\n}\n\n.selected .categories__innerPanel {\n  transition: 1.25s;\n  right: 0;\n  left: 0;\n}\n\n.selected .categories__innerPanel::before {\n  display: inline-block;\n  content: '';\n  width: 100%;\n  height: 100%;\n  animation: fadein 2s;\n  transition: 2s;\n  background-color: rgba(255, 145, 0, 0.5);\n}\n\n.selected .categories__panelTitle {\n  transition: 1.25s;\n  font-size: 100%;\n  padding-left: -15px;\n}\n\n.unselected .categories__innerPanel::before {\n  display: inline-block;\n  content: '';\n  width: 100%;\n  height: 100%;\n  animation: fadeout 2s;\n  opacity: 0;\n  background-color: rgba(255, 145, 0, 0.5);\n}", ""]);
+exports.push([module.i, "/* Variables */\n\n/* Keyframes */\n\n@keyframes fadein {\n  0% {\n    opacity: 0;\n  }\n\n  100% {\n    opacity: 1;\n  }\n}\n\n@keyframes fadeout {\n  0% {\n    opacity: 1;\n  }\n\n  100% {\n    opacity: 0;\n  }\n}\n\n/* --------- */\n\nbody {\n  display: flex;\n  height: 100vh;\n  overflow: hidden;\n}\n\n/*  MENU  */\n\n.menu {\n  user-select: none;\n  width: 130px;\n  overflow-y: scroll;\n  height: 100vh;\n  max-height: 785px;\n  float: left;\n}\n\n.menu__logo {\n  background: url(" + escape(__webpack_require__(7)) + ") no-repeat center;\n  width: calc(100% - 14px);\n  height: 110px;\n  background-size: contain;\n  margin: 0 7px;\n}\n\n.menu__element {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  align-items: center;\n  flex-grow: 1;\n  height: 85px;\n  padding: 14px 0;\n  line-height: 16px;\n  font-weight: 600;\n  overflow: visible;\n  cursor: pointer;\n}\n\n.menu__element p {\n  padding: 7px 0 3px 0;\n  text-transform: uppercase;\n  color: white;\n  font-size: 0.8em;\n  font-weight: 700;\n}\n\n.menu__element:hover .menu__elementSlider {\n  transition: 0.5s;\n  width: 100%;\n}\n\n.menu__element--1 {\n  background-color: #ffa754;\n}\n\n.menu__element--2 {\n  background-color: #e9532a;\n}\n\n.menu__element--3 {\n  background-color: #49b5ac;\n}\n\n.menu__element--4 {\n  background-color: #3b9d89;\n}\n\n.menu__element--5 {\n  background-color: #714178;\n}\n\n.menu__element--6 {\n  background-color: #000000;\n}\n\n.menu__elementSlider {\n  height: 100%;\n  background-color: rgba(255, 255, 255, 0.1);\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  transition: 0.5s;\n  width: 0;\n}\n\n.menu__footer {\n  width: 100%;\n  padding: 5px 0 25px 0;\n  font-size: 0.6em;\n  font-weight: 500;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.menu__footer a {\n  width: 50px;\n  height: 45px;\n}\n\n.menu__footer a p {\n  padding: 3px 0;\n  margin: 0 -100%;\n  display: none;\n  text-align: center;\n  white-space: nowrap;\n  overflow: visible;\n}\n\n.menu__footer a:hover p {\n  display: block;\n}\n\n.menu_footerIcon {\n  height: 30px;\n  width: 100%;\n}\n\n.menu_footerIcon--1 {\n  background: url(" + escape(__webpack_require__(8)) + ") no-repeat center;\n}\n\n.menu_footerIcon--2 {\n  background: url(" + escape(__webpack_require__(9)) + ") no-repeat center;\n}\n\n.menu_footerIcon--3 {\n  background: url(" + escape(__webpack_require__(10)) + ") no-repeat center;\n}\n\n.menu__author {\n  font-size: 0.6em;\n  font-weight: 500;\n  display: block;\n  margin: 0 auto;\n  text-align: center;\n}\n\n/*  CATEGORIES  */\n\n.categories {\n  width: calc(100vw - 130px);\n  height: 100vh;\n  display: flex;\n  flex-wrap: nowrap;\n  overflow: hidden;\n  justify-content: flex-start;\n  z-index: 5;\n}\n\n.categories__panel {\n  transition: 1.25s;\n  width: calc(100% / 5);\n  position: relative;\n}\n\n.categories__innerPanel {\n  margin: 0 auto;\n  width: 100%;\n  height: 100%;\n  background: no-repeat center;\n  background-size: cover;\n  position: absolute;\n  overflow: hidden;\n  cursor: pointer;\n}\n\n.categories__expendable:hover {\n  transition: 0.5s;\n  width: calc(100% + 40px);\n  right: -20px;\n  left: -20px;\n  z-index: 10;\n}\n\n.categories__expendable:hover .categories__panelTitle {\n  transition: 0.5s;\n  left: 40px;\n}\n\n.categories__innerPanel--1 {\n  background-image: url(" + escape(__webpack_require__(11)) + ");\n}\n\n.categories__innerPanel--2 {\n  background-image: url(" + escape(__webpack_require__(12)) + ");\n}\n\n.categories__innerPanel--3 {\n  background-image: url(" + escape(__webpack_require__(13)) + ");\n}\n\n.categories__innerPanel--4 {\n  background-image: url(" + escape(__webpack_require__(14)) + ");\n}\n\n.categories__innerPanel--5 {\n  background-image: url(" + escape(__webpack_require__(15)) + ");\n}\n\n.categories__panelTitle {\n  user-select: none;\n  transition: font-size 1.25s;\n  display: block;\n  min-width: 150px;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  color: white;\n  text-shadow: 1px 1px 2px rgba(128, 128, 128, 0.7);\n  font-size: 150%;\n  position: absolute;\n  left: 20px;\n  right: 40px;\n  top: 85px;\n}\n\n.categories__panelInfo {\n  color: #464646;\n  position: absolute;\n  width: calc(100% - 279px);\n  right: 0;\n  top: 0;\n  overflow-y: scroll;\n  height: 100vh;\n  max-height: 785px;\n  z-index: -1;\n  padding: 30px 50px 50px 50px;\n}\n\n.categories__panelInfoArticle {\n  display: none;\n}\n\n.categories__panelInfoArticle article {\n  margin-bottom: 50px;\n}\n\n.categories__panelInfoArticle article h2 {\n  text-align: center;\n  letter-spacing: 4px;\n  text-transform: uppercase;\n  font-size: 1.5em;\n  padding: 20px 0 15px 0;\n}\n\n.categories__panelInfoArticle article p {\n  font-family: serif;\n  margin: 15px auto;\n  font-size: 1em;\n  letter-spacing: 0.5px;\n  line-height: 1.4em;\n}\n\n.categories__panelInfoArticle article p span {\n  font-weight: 600;\n}\n\n.categories__panelInfoArticle > div {\n  width: 100%;\n  text-align: center;\n}\n\n.categories__panelInfoArticle > div a {\n  width: 220px;\n  height: 260px;\n  display: block;\n  margin: 0 auto;\n  position: relative;\n}\n\n.categories__panelInfoArticle > div a figure {\n  width: 220px;\n  height: 220px;\n  background-size: cover;\n  transition: 0.5s;\n  border-radius: 50%;\n  cursor: pointer;\n  position: absolute;\n  backface-visibility: hidden;\n}\n\n.categories__panelInfoArticle > div a figure.front {\n  background: url(" + escape(__webpack_require__(16)) + ") center no-repeat;\n}\n\n.categories__panelInfoArticle > div a figure.back {\n  background-color: black;\n  transform: rotateY(180deg);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: white;\n}\n\n.categories__panelInfoArticle > div a:hover figure.front {\n  transition: 0.5s;\n  transform: rotate3d(0, 1, 0, 180deg);\n}\n\n.categories__panelInfoArticle > div a:hover figure.back {\n  transition: 0.5s;\n  transform: rotate3d(0, 1, 0, 0deg);\n}\n\n.categories__panelInfoArticle > div a h4 {\n  cursor: pointer;\n  text-align: center;\n  width: 100%;\n  display: block;\n  text-transform: uppercase;\n  font-size: 1.3em;\n  letter-spacing: 2px;\n  position: absolute;\n  bottom: -5px;\n}\n\n.categories__panelInfoCloseBtn {\n  position: absolute;\n  right: 50px;\n  top: 20px;\n  cursor: pointer;\n}\n\n.faded {\n  transition: 1.25s;\n  width: 0;\n}\n\n.faded .categories__innerPanel {\n  transition: 1.25s;\n  right: 0;\n  left: 0;\n}\n\n.selected {\n  transition: 1.25s;\n  width: 150px;\n  right: 0;\n  left: 0;\n}\n\n.selected .categories__innerPanel {\n  transition: 1.25s;\n  right: 0;\n  left: 0;\n}\n\n.selected .categories__innerPanel::before {\n  display: inline-block;\n  content: '';\n  width: 100%;\n  height: 100%;\n  animation: fadein 2s;\n  background-color: rgba(255, 145, 0, 0.5);\n}\n\n.selected .categories__panelTitle {\n  transition: 1.25s;\n  font-size: 100%;\n  left: 10px;\n  padding-left: 10px;\n}\n\n.unselected .categories__innerPanel::before {\n  display: inline-block;\n  content: '';\n  width: 100%;\n  height: 100%;\n  animation: fadeout 2s;\n  opacity: 0;\n  background-color: rgba(255, 145, 0, 0.5);\n}", ""]);
 
 // exports
 
@@ -10631,7 +10644,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "/* Reset */\n\n* {\n    margin: 0;\n    padding: 0;\n    border: 0;\n    font-size: 100%;\n    font-weight: normal;\n    box-sizing: border-box;\n    font-family: sans-serif;\n}\n\na {\n    text-decoration: none;\n    color: inherit;\n}", ""]);
+exports.push([module.i, "/* Reset */\n\n* {\n    margin: 0;\n    padding: 0;\n    border: 0;\n    font-size: 100%;\n    font-weight: normal;\n    box-sizing: border-box;\n    font-family: sans-serif; /* font użyty na stronie Kahuna \"brandon-grotesque\" jest płatny. Użyłem po prostu sans-serif ponieważ jest w Uppercase jest w miarę podobny.*/\n}\n\na {\n    text-decoration: none;\n    color: inherit;\n}\n\n/* remove scrollbar */\n::-webkit-scrollbar {\n    width: 0px;  \n    background: transparent;  \n}", ""]);
 
 // exports
 
@@ -10694,6 +10707,12 @@ module.exports = __webpack_require__.p + "7a7b3e9cc438f2e56fbd57e10288a82d.jpg";
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__.p + "3831b3bd1d117381b0098bc5830fe54e.jpg";
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -10747,7 +10766,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(17);
+var	fixUrls = __webpack_require__(18);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -11063,7 +11082,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 

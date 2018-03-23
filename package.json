@@ -1,7 +1,7 @@
 {
-  "name": "sitonchair",
+  "name": "kahuna",
   "version": "1.0.0",
-  "description": "<img alt=\"Logo\" src=\"http://coderslab.pl/svg/logo-coderslab.svg\" width=\"400\">",
+  "description": "Recruitment test 1",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --open",
